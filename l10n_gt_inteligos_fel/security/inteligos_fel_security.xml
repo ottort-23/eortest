@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="group_fel_user" model="res.groups">
+        <field name="name">Fel User</field>
+        <!--<field name="category_id" ref="base.module_category_website_website"/>-->
+    </record>
+
+    <record id="group_fel_manager" model="res.groups">
+        <field name="name">Fel Manager</field>
+        <!--<field name="category_id" ref="base.module_category_website_website"/>-->
+    </record>
+
+</odoo>

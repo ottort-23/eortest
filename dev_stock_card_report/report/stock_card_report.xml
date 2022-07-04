@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="stock_card_report_body">
+	        <t t-call="web.internal_layout">
+		        <div class="page">
+		            <style>
+						.header_table{
+							width:100%;
+						}
+						.header_table th{
+							padding:5px;
+							text-align:center;
+							border:1px solid black;
+							background:#c8cace;
+						}
+						.header_table td{
+							padding:5px;
+							text-align:center;
+							border:1px solid black;
+						}
+						.my_table{
+							width:100%;
+							font-size:15px;
+						}
+						.my_table th{
+							padding:5px;
+							border:1px solid #000;
+							background:#d6d6d6;
+							
+						}
+						.my_table td{
+							padding:5px;
+							border-bottom:1px solid #efefef;
+						}
+					</style>
+		            <div class="row">
+		                <div class="col-xs-12 text-center">
+		                    <h3>KARDEX</h3>
+		                </div>
+		            </div>
+		            <div class="row mt16 mb16">
+                        <div class="col-xs-12">
+                            <table class="header_table">
+                                <thead>
+                                    <tr>
+                                        <th width="33%"> Ubicación </th>
+                                        <th width="33%"> Fecha </th>
+                                        <th width="34%"> Generado por </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <tr>
+                                        <td> <span t-esc="o.location_id.name"/></td>
+                                        <td>
+                                            <span t-esc="o.get_date().get('start_date')"/>
+                                            al
+                                            <span t-esc="o.get_date().get('end_date')"/>
+                                        </td>
+                                        <td> <span t-esc="user.name"/> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+					<div class="row mt32 mb32"/>
+					<div class="row">
+						<div class="col-xs-12">
+							<table class="my_table">
+							    <thead>
+									<tr>
+										<th width="8%"> Fecha </th>
+										<th width="8%"> Origen </th>
+										<th width="8%"> Transf. Inventario </th>
+										<th width="15%"> Empresa </th>
+										<th width="8%" class="text-right"> 
+										    Entradas
+										</th>
+										<th width="8%" class="text-right"> 
+										    Salidas
+										</th>
+										<th width="8%" class="text-right"> 
+										    Saldo
+										</th>
+										<th width="12%" class="text-right">
+										    Costo Un.
+										</th>
+										<th width="16%" class="text-right">
+										    Total
+										</th>
+									</tr>
+									<tbody class="sale_tbody">
+									<t t-set="lines" t-value="o.get_lines()"/>
+									<t t-foreach="lines" t-as="line">
+									    <tr>
+                                    		<td class="text-left" style="background:#f7f3d4;border-bottom:1px solid black;border-top:1px solid black" colspan="11">
+												<span t-esc="line.get('product')"/> | <span t-esc="line.get('values')[0]['default_code']"/>
+											</td>
+                                    	</tr>
+                                    	<t t-set="t_in_qty" t-value="0"/>
+										<t t-set="t_out_qty" t-value="0"/>
+										<t t-set="t_total" t-value="0"/>
+										<t t-set="open_cost" t-value="0"/>
+										<t t-set="open_total" t-value="0"/>
+                                    	<t t-set="b_qty" t-value="0"/>
+                                    	<t t-set="count" t-value="0"/>
+                                    	<t t-foreach="line.get('values')" t-as="val">
+                                    	    <t t-if="count == 0">
+                                    	        <t t-set="open_qty" t-value="o.get_opening_quantity(val.get('product_id'))"/>
+												<tr>
+													<td/>
+													<td style="border-right:1px solid #efefef">
+														<b>Saldo Inicial</b>
+													</td>
+													<td colspan="2" style="border-right:1px solid #efefef"/>
+													<td  style="border-right:1px solid #efefef"/>
+													<td style="border-right:1px solid #efefef"/>
+													<td class="text-right" style="border-right:1px solid #efefef">
+													    <t t-set="b_qty" t-value="open_qty"/>
+														<b><span t-esc="'%.2f'%(open_qty)"/></b>
+													</td>
+													<td class="text-right" style="border-right:1px solid #efefef">
+														<t t-if="val.get('cost') &lt; 0">
+															<t t-set="open_cost" t-value="val.get('cost')*-1"/>
+															<b><span t-esc="'%.2f'%(open_cost)"/></b>
+														</t>
+														<t t-else="">
+															<t t-set="open_cost" t-value="val.get('cost')"/>
+															<b><span t-esc="'Q{:20,.2f}'.format(open_cost)"/></b>
+														</t>
+													</td>
+													<td class="text-right" style="border-right:1px solid #efefef">
+														<t t-set="open_total" t-value="open_qty*open_cost"/>
+														<b><span t-esc="'Q{:20,.2f}'.format(open_total)"/></b>
+													</td>
+												</tr>
+												<t t-set="count" t-value="1"/>
+											</t>
+											<tr>
+												<td>
+												    <t t-if="val.get('date')">
+														<span t-esc="val.get('date').strftime('%d/%m/%Y')"/>
+												    </t>
+												</td>
+												<td style="border-right:1px solid #efefef">
+													<span t-esc="val.get('origin')"/>
+												</td>
+
+												<td style="border-right:1px solid #efefef">
+													<span t-esc="val.get('picking')"/>
+												</td>
+												<td style="border-right:1px solid #efefef">
+													<span t-esc="val.get('partner')"/>
+												</td>
+												<td class="text-right" style="border-right:1px solid #efefef">
+													<t t-if="val.get('in_qty')">
+														<t t-set="t_in_qty" t-value="t_in_qty + val.get('in_qty')"/>
+														<t t-set="b_qty" t-value="b_qty + val.get('in_qty')"/>
+														<span t-esc="'%.2f'%(val.get('in_qty'))"/>
+													</t>
+												</td>
+												<td class="text-right" style="border-right:1px solid #efefef">
+													<t t-if="val.get('out_qty')" style="border-right:1px solid #efefef">
+														<t t-set="t_out_qty" t-value="t_out_qty + val.get('out_qty')"/>
+														<t t-set="b_qty" t-value="b_qty - val.get('out_qty')"/>
+														<span t-esc="'%.2f'%(val.get('out_qty'))"/>
+													</t>
+												</td>
+												<td class="text-right" style="border-right:1px solid #efefef">
+													<span t-esc="'%.2f'%(b_qty)"/>
+												</td>
+												<td class="text-right" style="border-right:1px solid #efefef">
+													<span t-esc="'Q{:20,.2f}'.format(val.get('cost'))"/>
+												</td>
+												<td class="text-right" style="border-right:1px solid #efefef">
+													<t t-set="t_total" t-value="t_total + val.get('total')"/>
+													<span t-esc="'Q{:20,.2f}'.format(val.get('total'))"/>
+												</td>
+											</tr>
+
+											<tr>
+												<td colspan="3" style="border-right:1px solid #efefef">
+													<b>LOTES</b>
+												</td>
+												<td colspan="6" style="border-right:1px solid #efefef">
+													<span t-esc="val.get('lots')"/>
+												</td>
+											</tr>
+
+                                    	</t>
+                                    	<tr>
+											<td colspan="2" class="text-right" style="border-right:1px solid #efefef">
+												<b>TOTAL</b>
+											</td>
+											<td colspan="2" class="text-right" style="border-right:1px solid #efefef"/>
+											<td class="text-right" style="border-right:1px solid #efefef">
+												<t t-if="t_in_qty">
+													<b><span t-esc="'%.2f'%(t_in_qty)"/></b>
+												</t>
+											</td>
+											<td class="text-right" style="border-right:1px solid #efefef">
+												<t t-if="t_out_qty">
+													<b><span t-esc="'%.2f'%(t_out_qty)"/></b>
+												</t>
+											</td>
+											<td class="text-right" style="border-right:1px solid #efefef">
+											    <b><span t-esc="'%.2f'%(b_qty)"/></b>
+											</td>
+											<td class="text-right" style="border-right:1px solid #efefef">
+											    <b/>
+											</td>
+											<td class="text-right" style="border-right:1px solid #efefef">
+											    <b><span t-esc="'Q{:20,.2f}'.format(t_total+open_total)"/></b>
+											</td>
+										</tr>
+									</t>
+									</tbody>
+								</thead>
+							</table>
+					    </div>
+					</div>
+		            <p style="page-break-before:always;"/>
+		        </div>
+		    </t>
+	</template>
+
+	<template id="stock_card_report_template">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="dev_stock_card_report.stock_card_report_body" />
+			 </t>
+		</t>
+	</template>
+</odoo>
+

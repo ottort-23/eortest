@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_crm_lead_inherit_search">
+        <field name="name">CRM Lead Inherit Search</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="nit"/>
+                <field name="legal_name"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

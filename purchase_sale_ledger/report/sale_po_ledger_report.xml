@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="purhase_sale_ledger_paper_format" model="report.paperformat">
+            <field name="name">Formato de impresión Libro Ventas y Compras</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">30</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">180</field>
+            <field name="dpi">85</field>
+        </record>
+
+        <!-- QWeb Reports -->
+        <!--report
+            id="action_report_so_po_inv_ledger"
+            model="account.invoice"
+            string="Libro de Compras y Ventas"
+            report_type="qweb-pdf"
+            name="purchase_sale_ledger.report_so_po_ledger"
+            file="purchase_sale_ledger.report_so_po_ledger"
+            menu="False"
+            paperformat="purchase_sale_ledger.purhase_sale_ledger_paper_format"
+        /-->
+
+    <record id="action_report_so_po_inv_ledger" model="ir.actions.report">
+        <field name="name">Libro de Compras y Ventas</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">purchase_sale_ledger.report_so_po_ledger</field>
+        <field name="report_file">purchase_sale_ledger.report_so_po_ledger</field>
+        <field name="paperformat_id" ref="purchase_sale_ledger.purhase_sale_ledger_paper_format"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+    </data>
+</odoo>

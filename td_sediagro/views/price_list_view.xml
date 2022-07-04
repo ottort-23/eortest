@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_pricelist_users_view" model ="ir.ui.view">
+        <field name="name">product.pricelist_user_view</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view" />
+        <field name="arch" type="xml">
+            <field name="country_group_ids" position="after">
+                <field name = "user_ids" widget="many2many_checkboxes"/>
+            </field>
+        </field>
+    </record>
+
+
+    <!--record id="product_pricelist_access" model ="ir.ui.view">
+        <field name="name">product.pricelist_user_access</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="groups_id" eval="[(6, 0, [ref('sales_team.group_sale_salesman') ])]" />
+        <field name="arch" type="xml">
+            <field name="item_ids" position = "attributes" >
+                <attribute name="readonly">1</attribute>
+            </field>
+        </field>
+    </record
+    BRYAN: ODOO15 DELETE PRICELIST FIELD-->
+
+</odoo>

@@ -1,0 +1,15 @@
+<odoo>
+
+    <record model="ir.ui.view" id="view_account_invoice_filter">
+        <field name="name">Herencia de Vista tipo Búsqueda de Facturas para Regiones de Ventas</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <filter name="duedate" position="after">
+                <filter string="Sub-regiones" name="sub_region" domain="[]" context="{'group_by': 'sub_region_id'}"/>
+                <filter string="Regiones" name="region" domain="[]" context="{'group_by': 'region_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>

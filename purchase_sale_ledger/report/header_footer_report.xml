@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_so_po_ledger_header">
+            <div class="header" style="font-size: 20px;">
+                <div class="text-center">
+                    <strong>REPORTE: </strong><span t-esc="report_title"/><br/>
+                    <strong>EMPRESA: </strong> <span t-esc="company.name"/><br/>
+                    <strong>NIT: </strong><span t-esc="company.vat"/><br/>
+                    <strong>PERIODO : </strong><span t-esc="selected_month"/> / <span t-esc="year"/>
+                </div>
+
+                <div class="text-center" style="position: absolute;right: 20px;top: 20px;">
+                    <strong>FOLIO: </strong><span class="page"/><br/>
+                    <strong>MONEDA: </strong><span t-esc="company.currency_id.name"/>
+                </div>
+            </div>
+        </template>
+
+        <template id="report_so_po_ledger_footer">
+            <div class="footer" align="center" style="font-size: 15px;">
+                FIN DEL PERIODO : <span t-esc="data['form']['month']"/> / <span t-esc="year"/>
+            </div>
+        </template>
+
+    </data>
+</odoo>

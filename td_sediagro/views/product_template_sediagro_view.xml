@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_sediagro" model ="ir.ui.view">
+    <field name="name">product.template.form.sediagro</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_form_view" />
+    <field name="arch" type="xml">
+        <xpath expr="/form/sheet/notebook" position="inside">
+            <page string="Datos Técnicos">
+                <group string="Datos Técnicos">
+                    <field name="composicion" string="Composicion"/>
+                    <field name="dosis" string="Dosis por Hectarea"/>
+                    <field name="origen" string="País de Origen"/>
+                    <field name="kilo_litro" string="Kilo / Litro"/>
+                </group>
+            </page>
+        </xpath>
+    </field>
+</record>
+
+    <record id="res_users_analytic_account" model ="ir.ui.view">
+        <field name="name">res.users_analytic_account</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <page name="access_rights" position="inside">
+                <group>
+                    <field name = "analytic_account_id" string = 'Cuenta Analitica'/>
+                </group>
+            </page>
+        </field>
+    </record>
+
+    <record id="sale_order_form_sediagro" model ="ir.ui.view">
+        <field name="name">sale.order.form.sediagro</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="after">
+                <field name="dose_ha" />
+                <field name="cost_ha" />
+                <field name="total_kilo_litro"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <field name="dose_ha" />
+                <field name="cost_ha" />
+                <field name="total_kilo_litro"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_form_sediagro" model ="ir.ui.view">
+        <field name="name">purchase.order.form.sediagro</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <field name="product_qty" position="after">
+                <field name="total_kilo_litro"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="stock_picking_form_sediagro" model ="ir.ui.view">
+        <field name="name">stock.picking.form.sediagro</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="after">
+                <field name="total_kilo_litro_done"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

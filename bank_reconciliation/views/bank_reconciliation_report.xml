@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="bank_reconciliation_report">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <t t-set="report" t-value="report"/>
+                    <h3 class="text-center">REPORTE DE CONCILIACION BANCARIA</h3>
+                    <br/>
+                    <br/>
+                    <table style="font-size: 90%;margin:0px auto 0px auto;width:400px">
+                        <tr>
+                            <td><b>Diario:</b></td>
+                            <td><span t-esc="journal['code']"/> <span t-esc="journal['name']"/></td>
+                            <td><b>Moneda:</b></td>
+                            <td><span t-esc="currency['name']"/></td>
+                        </tr>
+                        <tr>
+                            <td><b>Desde:</b></td>
+                            <td><span t-esc="report['header']['date_from']"/></td>
+                            <td><b>Hasta:</b></td>
+                            <td><span t-esc="report['header']['date_to']"/></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <table style="font-size: 90%;margin:0px auto 0px auto;width:720px">
+                        <tbody>
+                            <t t-set="last_bank_balance" t-value="last_balance"/>
+                            <t t-set="total_unredeemed_checks" t-value="0"/>
+                            <t t-set="total_unredeemed_transfers" t-value="0"/>
+                            <t t-set="total_deposits_in_transit" t-value="0"/>
+                            <t t-set="total_rno_transactions" t-value="0"/>
+                            <t t-set="total_ino_transactions" t-value="0"/>
+                            <t t-set="total_other_transactions" t-value="0"/>
+                            <t t-set="total_note_transactions" t-value="0"/>
+                            <t t-set="account_balance_report" t-value="account_balance-amount_transactions"/>
+                            <tr>
+                                <td style="width:75px"/>
+                                <td style="width:200px; font-size: 14px;" class="text-right"><b>Saldos</b></td>
+                                <td style="width:100px"/>
+                                <td style="width:125px; font-size: 14px;" class="text-right"><b>Contabilidad</b></td>
+                                <td style="width:125px; font-size: 14px;" class="text-right"><b>Bancos</b></td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:75px"/>
+                                <td style="width:200px"/>
+                                <td style="width:100px"/>
+                                <td style="width:125px; font-size: 14px;" class="text-right">
+                                    <span t-esc="account_balance_report"
+                                          t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </td>
+                                <td style="width:125px; font-size: 14px;" class="text-right">
+                                    <span t-esc="last_bank_balance"
+                                          t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-right"><b>(-)</b></td>
+                                <td class="text-right" style="font-size: 14px;">
+                                    <b>Cheques en circulación</b>
+                                </td>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr>
+
+                            <t t-foreach="unredeemed_checks" t-as="check">
+                                <tr>
+                                    <td class="text-right"><b><span t-esc="check.payment_date"/></b></td>
+                                    <td class="text-right">Cheque <span t-esc="check.document_reference"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="check.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td/>
+                                    <td class="text-right">
+                                        <t t-set="last_bank_balance" t-value="last_bank_balance-check.amount"/>
+                                        <t t-set="total_unredeemed_checks" t-value="total_unredeemed_checks+check.amount"/>
+                                        <span t-esc="total_unredeemed_checks"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <tr>
+                                <td class="text-right"><b>(-)</b></td>
+                                <td class="text-right" style="font-size: 14px;">
+                                    <b>Transferencias en circulación</b>
+                                </td>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr>
+
+                            <t t-foreach="unredeemed_transfers" t-as="transfer">
+                                <tr>
+                                    <td class="text-right"><b><span t-esc="transfer.payment_date"/></b></td>
+                                    <td class="text-right">Transferencia <span t-esc="transfer.document_reference"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="transfer.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td/>
+                                    <td class="text-right">
+                                        <t t-set="last_bank_balance" t-value="last_bank_balance-transfer.amount"/>
+                                        <t t-set="total_unredeemed_transfers" t-value="total_unredeemed_transfers+transfer.amount"/>
+                                        <span t-esc="total_unredeemed_transfers"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <tr>
+                                <td class="text-right"><b>(-)</b></td>
+                                <td class="text-right" style="font-size: 14px;"><b>Retiros no Operados</b></td>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr>
+
+                            <t t-foreach="rno_transactions" t-as="withdrawal">
+                                <tr>
+                                    <td class="text-right"><b><span t-esc="withdrawal.date"/></b></td>
+                                    <td class="text-right"><span t-esc="withdrawal.name"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="withdrawal.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-set="account_balance_report" t-value="account_balance_report-withdrawal.amount"/>
+                                        <t t-set="total_rno_transactions" t-value="total_rno_transactions+withdrawal.amount"/>
+                                        <span t-esc="total_rno_transactions"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td/>
+                                </tr>
+                            </t>
+
+                            <tr>
+                                <td class="text-right"><b>(+)</b></td>
+                                <td class="text-right" style="font-size: 14px;"><b>Intereses no Operados</b></td>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr>
+
+                            <t t-foreach="ino_transactions" t-as="interest">
+                                <tr>
+                                    <td class="text-right"><b><span t-esc="interest.date"/></b></td>
+                                    <td class="text-right"><span t-esc="interest.name"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="interest.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-set="account_balance_report" t-value="account_balance_report+interest.amount"/>
+                                        <t t-set="total_ino_transactions" t-value="total_ino_transactions+interest.amount"/>
+                                        <span t-esc="total_ino_transactions"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td/>
+                                </tr>
+                            </t>
+
+                            <tr>
+                                <td class="text-right"><b>(+)</b></td>
+                                <td class="text-right" style="font-size: 14px;"><b>Depósito en tránsito</b></td>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr>
+
+                            <t t-foreach="deposits_in_transit" t-as="deposit">
+                                <tr>
+                                    <td class="text-right"><b><span t-esc="deposit.payment_date"/></b></td>
+                                    <td class="text-right"><span t-esc="deposit.communication"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="deposit.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td/>
+                                    <td class="text-right">
+                                        <t t-set="last_bank_balance" t-value="last_bank_balance+deposit.amount"/>
+                                        <t t-set="total_deposits_in_transit" t-value="total_deposits_in_transit+deposit.amount"/>
+                                        <span t-esc="total_deposits_in_transit"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                </tr>
+                             </t>
+
+                            <tr>
+                                <td class="text-right"><b>(+)(-)</b></td>
+                                <td class="text-right" style="font-size: 14px;"><b>Otros</b></td>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr>
+
+                            <t t-foreach="multi_transactions" t-as="transaction">
+                                <tr>
+                                    <td class="text-right"><b><span t-esc="transaction.date"/></b></td>
+                                    <td class="text-right"><span t-esc="transaction.name"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="transaction.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="transaction.operations_type in ['NCRE', 'NDEB']">
+                                            <t t-set="account_balance_report" t-value="account_balance_report+transaction.amount"/>
+                                            <t t-set="total_note_transactions" t-value="total_note_transactions+transaction.amount"/>
+                                            <span t-esc="transaction.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                        </t>
+                                        <t t-elif="transaction.operations_type == 'Others' and transaction.amount &lt; 0">
+                                            <t t-set="account_balance_report" t-value="account_balance_report+transaction.amount"/>
+                                            <t t-set="total_other_transactions" t-value="total_other_transactions+transaction.amount"/>
+                                            <span t-esc="transaction.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="transaction.operations_type == 'Others' and transaction.amount > 0">
+                                            <t t-set="last_bank_balance" t-value="last_bank_balance+transaction.amount"/>
+                                            <t t-set="total_other_transactions" t-value="total_other_transactions+transaction.amount"/>
+                                            <span t-esc="transaction.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                             </t>
+
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td style="background-color:#000000; height:1px"/>
+                                <td style="background-color:#000000; height:1px"/>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td class="text-right" style="font-size: 14px;"><b>Saldo Conciliado</b></td>
+                                <td/>
+                                <td class="text-right">
+                                    <span t-esc="account_balance_report"
+                                          t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="last_bank_balance"
+                                          t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td style="background-color:#000000; height:1px"/>
+                                <td style="background-color:#000000; height:1px"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

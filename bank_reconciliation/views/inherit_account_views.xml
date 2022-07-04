@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="bank_reconciliation_view_account_bank_statement_line_tree" model="ir.ui.view">
+        <field name="name">bank_reconciliation.account.bank.statement.line.tree</field>
+        <field name="model">account.bank.statement</field>
+        <field name="inherit_id" ref="account.view_bank_statement_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/group[1]/group[2]" position="inside">
+                <field name="total_difference"/>
+            </xpath>
+
+<!--            <xpath name="/form/sheet/notebook/page/field/tree/field[3][@name='date']" position="after">-->
+<!--                <field name="operations_type"/>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+</odoo>

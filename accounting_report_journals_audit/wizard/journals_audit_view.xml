@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<record id="account_report_print_journal_view_new" model="ir.ui.view">
+            <field name="name">Libro Diario</field>
+            <field name="model">account.print.journal.report</field>
+            <field name="arch" type="xml">
+            <form string="Report Options">
+	            <group>
+	                <field name="target_move" widget="radio"/>
+	            </group>
+	            <group>
+	            	<field name="sort_selection" widget="radio" invisible="1"/>
+	            </group>
+	            <group col="4">
+	             <field name="date_from" string = "Desde"/>
+	             <field name="date_to" string = "Hasta"/>
+	             <field name="page_number" string = "Folio Inicial"/>
+	             </group>
+	            <group>
+	                <field name="company_id" string = "Empresa" options="{'no_create': True}" groups="base.group_multi_company"/>
+	            </group>
+	            <group>
+	            	<field name="file_name" invisible="1" string = "Nombre del Archivo"
+                           />
+					<field name="excel_file" filename="file_name"
+                           readonly="1" string="Descargar en Excel"
+                            attrs="{'invisible':[('excel_file', '=', False)]}"/>
+	            </group>
+	            <footer>
+	                <button name="check_report" string="Guardar en Excel"
+                             type="object" default_focus="1"
+                             class="oe_highlight"/>
+	                <button name="print_in_pdf" string="Imprimir en PDF" type="object" default_focus="1" class="oe_highlight"/>
+	                <button string="Cancelar" class="btn btn-secondary" special="cancel"/>
+	            </footer>
+	        </form>
+            </field>
+        </record>
+     
+     <record id="action_account_report_print_journal_view_new" model="ir.actions.act_window">
+        <field name="name">Libro de Ventas</field>
+        <field name="res_model">account.print.journal.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    
+	 <menuitem id="new_account_reports_audit_reports_menu" name="Libro Diario" parent="account_reports.account_reports_audit_reports_menu"
+	 action="action_account_report_print_journal_view_new"
+	 sequence="3"/>
+	</data>
+</odoo>  

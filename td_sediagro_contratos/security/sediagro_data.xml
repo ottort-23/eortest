@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="group_contratos" model="res.groups">
+            <field name="name">Sales: Contratos Sediagro</field>
+            <field name="comment">Permisos para Contratos Sediagro.</field>
+        </record>
+
+</odoo>

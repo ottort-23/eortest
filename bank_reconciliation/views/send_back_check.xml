@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tree_view_send_back_check" model="ir.ui.view">
+		<field name="name">Vista Lista - Cheques rechazados</field>
+        <field name="model">send.back.check</field>
+       	<field name="arch" type="xml">
+			<tree string="Cheque rechazado" create="0">
+				<field name="name"/>
+				<field name="partner_id"/>
+				<field name="date"/>
+                <field name="ref"/>
+				<field name="bank_statement_id"/>
+				<field name="amount"/>
+				<field name="company_id" invisible="True"/>
+			</tree>
+        </field>
+	</record>
+
+     <record id="action_menu_send_back_checks" model='ir.actions.act_window'>
+		<field name="name">Cheques rechazados</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">send.back.check</field>
+		<field name="view_mode">tree</field>
+		<field name="context">
+              {'tree_view_ref': 'bank_reconciliation.tree_view_send_back_check'}
+          </field>
+	</record>
+
+	<menuitem
+		action="action_menu_send_back_checks"
+		id="menu_send_back_checks"
+		name="Cheques Rechazados"
+		parent="account.menu_finance_receivables"
+		sequence="6"/>
+</odoo>

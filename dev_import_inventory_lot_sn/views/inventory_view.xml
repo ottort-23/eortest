@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle 
+ -->
+<odoo>
+	<!--record id="dev_import_inventory_button_inventory_form" model="ir.ui.view">
+	    <field name="name">dev.import.inventory.button.inventory.form</field>
+	    <field name="model">stock.inventory</field>
+	    <field name="inherit_id" ref="stock.view_inventory_form"/>
+	    <field name="arch" type="xml">
+			<xpath expr="//header" position="inside">
+	           <button type="action" name="%(action_import_inventory)d" states="confirm" class="oe_highlight" string="Import Inventory"/>
+	        </xpath>
+	    </field>
+	</record
+	TODO: BRYAN-->
+</odoo>
