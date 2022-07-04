@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tree_view_partner_send_back_checks" model="ir.ui.view">
+		<field name="name">Vista Lista - Cheques rechazados</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+       	<field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object"
+                        name="action_view_send_back_checks" icon="fa-align-justify">
+                    <field string="Cheques Rechazados" name="count_send_back_check" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+	</record>
+</odoo>

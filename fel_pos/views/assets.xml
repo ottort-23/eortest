@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Add custom js for POS Invoice Auto Check -->
+	<template id="assets_for_pos_invoice_auto_check" inherit_id="web.assets_backend">
+		<xpath expr="." position="inside">
+			<script type="text/javascript" src="/fel_pos/static/src/js/models.js"/>
+			<script type="text/javascript" src="/fel_pos/static/src/js/screens.js"/>
+		</xpath>
+	</template>
+</odoo>

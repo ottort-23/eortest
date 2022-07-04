@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+<template id="check_pdf_print.report_check_pdf_bam">
+  <t t-call="web.html_container">
+
+    <br/>
+    <t t-foreach="docs" t-as="o">
+
+      <t t-set="o" t-value="o.with_context({'lang': lang})"/>
+      <div class="page"><t>
+      <!-- check design -->
+        <div class="row">
+          <table width="100%" style="margin-top: -17px;margin-left:26px;">
+            <tr height="40px">
+              <td width="5%" height="15px">
+
+
+              </td>
+              <td width="70%" height="35px" style="font-family: Courier;font-size:14px;">
+                Guatemala <span t-esc="o.payment_date"/>
+              </td>
+              <td width="40%" height="35px" class="text-right" style="font-family: Courier;font-size:14px; ">
+                <span t-field="o.amount"/>
+
+              </td>
+            </tr>
+            <tr height="25px">
+              <td width="5%">
+              </td>
+              <td width="70%" colspan="2" style="font-family: Courier;font-size:14px; ">
+                <span t-field="o.partner_id.name"/>
+              </td>
+            </tr>
+            <tr height="25px">
+              <td width="5%">
+              </td>
+              <td width="70%" colspan="2" style="font-size:14px; font-family: Courier; ">
+                ** <span t-esc="o.amount_in_words.upper()"/> **
+                </td>
+            </tr>
+            <br/><br/><br/>
+            <tr height="50px">
+              <td colspan="3" style="font-family: Courier;font-size:14px;">
+
+              </td>
+            </tr>
+          </table>
+        </div>
+
+
+<style type="text/css">
+
+/* Arvo */
+@font-face {
+  font-family: 'Arvo';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Arvo'), url(http://fonts.gstatic.com/s/arvo/v8/MViwy4K6e56oHcyeMzjbCQ.ttf) format('truetype');
+}
+
+
+
+.monto-cheque{
+    position: absolute;
+    top: 57px;
+    right: 300px;
+    width: 70%;
+    text-align: right;
+    font-size: 10pt;
+}
+
+    .tbl{
+
+        width: 85%;
+
+    }
+
+    .trg,.tdg{
+
+
+    }
+
+</style>
+
+<br/><br/><br></br>
+
+<table class="tbl" style="margin-top: 13px;">
+    <tr class="trg">
+        <td class="tdg" colspan="2" style="width: 65%; height: 35mm; text-align:left;"><span style="margin-top:-5px;margin-left: 40px;" t-field="o.ref"/></td> <!--descripcion de pago-->
+        <td class="tdg" colspan="2" style="width: 35%;">
+            <table>
+            <tr><td><span style="margin-bottom: 5px;"/><span t-esc="o.payment_date"/></td></tr> <!--fecha-->
+            <tr><td><span style="margin-bottom: 5px;"/>CHEQUE No: <t t-set="number_check" t-value="o.name.split('/', 2)"/> <span t-esc="o.document_reference"/></td></tr> <!--No. cheque-->
+        </table>
+        </td>
+    </tr>
+    <t t-set="d_total" t-value="0"/>
+    <t t-set="c_total" t-value="0"/>
+    <t t-foreach="o.line_ids" t-as="line">
+    <tr class="trg" style="">
+
+        <td class="tdg" style="width: 16%;"/> <!--cuenta-->
+        <td class="tdg" style="width: 58%;"><t t-esc="line.account_id.name"/></td> <!--concepto-->
+        <td class="tdg" style="width: 13%; text-align:right;"><t t-esc="line.debit"/></td> <!--debe-->
+        <td class="tdg" style="width: 13%; text-align:right;"><t t-esc="line.credit"/></td> <!--haber-->
+    </tr>
+    <tr class="trg" style="">
+        <td class="tdg" style="width: 16%;"/> <!--cuenta-->
+        <td class="tdg" style="width: 58%; text-align:right;"/> <!--espacio de relleno:-->
+        <td class="tdg" style="width: 13%; text-align:right;"><t t-set="d_total" t-value="d_total+line.debit"/></td> <!--debe   -->
+        <td class="tdg" style="width: 13%; text-align:right;"><t t-set="c_total" t-value="c_total+line.credit"/></td> <!--haber -->
+    </tr>
+    </t>
+    <tr class="trg" style="height:105mm;">
+        <td class="tdg" style="width: 16%;"/> <!--cuenta-->
+        <td class="tdg" style="width: 58%; text-align:right;">Total: </td> <!--total:-->
+        <td class="tdg" style="width: 13%; text-align:right;"><t t-esc="o.currency_id.symbol"/> <t t-esc="d_total"/></td> <!--debe   -->
+        <td class="tdg" style="width: 13%; text-align:right;"><t t-esc="o.currency_id.symbol"/> <t t-esc="c_total"/></td> <!--haber -->
+    </tr>
+
+
+    <tr class="trg" style="">
+        <td class="tdg" style="width: 16%;"> <span t-esc="request.env.user.name"/> </td> <!--usuario   o.create_uid.name-->
+        <td class="tdg" colspan="2" style="width: 58%;">
+              <table style="width: 100%; height: 100%;">
+                <tr style="width: 100%; height: 100%;">
+                    <td style="width: 20%; "> </td>
+                    <td style="width: 20%; "> </td>
+                    <td style="width: 60%;"> </td>
+                </tr>
+            </table>
+
+        </td>
+        <td class="tdg" style="width: 13%;">
+            <table>
+                <tr>
+                    <td style="width: 16%;"/>
+                    <td style="width: 16%;"/>
+                    <td style="width: 16%;"/> </tr>
+                <tr>
+                    <td style="width: 16%; "> </td>
+                    <td style="width: 16%; "> </td>
+                    <td style="width: 16%;"> </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<!--    <table>
+      <tbody>
+        <t t-set="d_total" t-value="0"/>
+        <t t-set="c_total" t-value="0"/>
+        <t t-foreach="o.line_ids" t-as="line">
+        <table width="90%">
+          <tr>
+            <div style="line-height:5pt">
+              <td width="60%" style="font-family: Arvo; letter-spacing: 0.2em;">
+                <t t-esc="line.account_id.name"/>
+              </td>
+              <td width="20%" class="text-left" style="font-family: Arvo; letter-spacing: 0.2em;">
+                <t t-esc="line.debit"/>
+                <t t-set="d_total" t-value="d_total+line.debit"/>
+              </td>
+              <td width="20%" class="text-left" style="font-family: Arvo; letter-spacing: 0.2em;">
+                <t t-esc="line.credit"/>
+                <t t-set="c_total" t-value="c_total+line.credit"/>
+              </td>
+            </div>
+          </tr>
+        </table>
+        </t>
+      </tbody>
+      <tfooter>
+        <table width="90%">
+          <tr>
+            <td width="60%" height="20px">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">      <span t-field="o.ref"/> </p>
+            </td>
+            <td width="20%" class="text-left">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">    <t t-esc="d_total"/> </p>
+            </td>
+            <td width="20%" class="text-left">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">     <t t-esc="c_total"/> </p>
+            </td>
+          </tr>
+        </table>
+        <tr>
+          <td width="60%">
+            <p style="font-family: Arvo; letter-spacing: 0.2em;"> Numero de Cheque  <t t-set="number_check" t-value="o.name.split('/', 2)"></t> <span t-esc=" number_check[2]" />  </p>
+          </td>
+          <td width="20%">
+          </td>
+          <td width="20%">
+          </td>
+        </tr>
+        <tr>
+          <td width="30%" colspan="3">
+            <table width="100%">
+              <tr>
+                <td width="30%">
+                  <p style="font-family: Arvo; letter-spacing: 0.2em;">    <span t-esc="request.env.user.name"/></p>
+                </td>
+                <td width="40%">
+                  <p style="font-family: Arvo; letter-spacing: 0.2em;">   <span t-field="o.create_uid.name"/> </p>
+                </td>
+                <td width="30%">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tfooter>
+    </table>-->
+
+
+
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+
+<template id="check_pdf_print.report_check_pdf_banrural">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="o">
+      <div class="page"><t>
+      <!-- check design -->
+        <div class="row" style="padding-top:90px;">
+          <table width="100%" style="margin-left:-30px;">
+            <tr height="30px">
+              <td width="35%" height="0.5px" style="font-family: Courier; font-size:14px;padding-left:80px;">
+                Guatemala, <span t-esc=" o.payment_date"/>
+              </td>
+              <td width="35%" height="0.005px" style="font-family: Courier; font-size:14px;text-align:left;padding-left:75px;">
+               <span style="margin-left:-5px;" t-field="o.amount"/>
+              </td>
+            </tr>
+            <tr>
+                  <td width="70%" colspan="1" height="25px" style="font-family: Courier; font-size:14px;padding-left:80px;">
+                     <span t-field="o.partner_id.name"/>
+                  </td>
+            </tr>
+            <tr>
+                  <td width="70%" colspan="2" height="15px" style="font-family: Courier; font-size:14px;padding-left:60px;">
+                      ** <span t-esc="o.amount_in_words.upper()"/> **
+                  </td>
+            </tr>
+            <tr>
+                  <td colspan="3" height="80px" style="font-family: Courier; letter-spacing: 0.2em;font-size:12pt;">
+
+                  </td>
+            </tr>
+          </table>
+        </div>
+
+<style type="text/css">
+
+/* Arvo */
+@font-face {
+  font-family: 'Arvo';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Arvo'), url(http://fonts.gstatic.com/s/arvo/v8/MViwy4K6e56oHcyeMzjbCQ.ttf) format('truetype');
+}
+
+
+
+.monto-cheque{
+    position: absolute;
+    top: 57px;
+    right: 300px;
+    width: 70%;
+    text-align: right;
+}
+
+
+
+
+</style>
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+    <table id="tgrid">
+    <tr>
+        <td style="width: 50%; text-align: left;">CHEQUE No: <t t-set="number_check" t-value="o.name.split('/', 2)"/> <span t-esc="o.check_number"/></td>
+        <td style="width: 50%; text-algin:right:"><span t-esc="o.payment_date"/> </td>
+
+    </tr>
+    <tr>
+        <td valign="text-top" style="width: 60%">BENEFICIARIO: <span t-field="o.partner_id.name"/></td>
+        <td>VALOR: <span t-field="o.amount"/></td>
+    </tr>
+    <tr>
+        <td colspan="2">TOTAL EN LETRAS: <span t-esc="o.amount_in_words.upper()"/></td>
+    </tr>
+    <tr>
+        <td colspan="2">POR CONCEPTO DE: <span t-field="o.ref"/></td>
+    </tr>
+    </table>
+    <t t-set="d_total" t-value="0"/>
+    <t t-set="c_total" t-value="0"/>
+
+    <div style="height:40mm;">
+    <table style=" border: 1px 0px 1px 0px solid black; border-collapse: collapse; margin-top: 5mm; width: 100%;">
+
+    <tr style="border: 1px solid black; border-collapse: collapse; text-align: left;">
+        <th>CUENTA</th>
+        <th>DESCRIPCION</th>
+        <th style="text-align: right;">DEBE</th>
+        <th style="text-align: right;">HABER</th>
+
+    </tr>
+ <t t-foreach="o.line_ids" t-as="line">
+        <tr style="border: 1px 0px 1px 0px solid black; border-collapse: collapse;">
+        <td style="width: 20%; "><t t-esc="line.account_id.code"/> </td><!--codigo cuenta-->
+        <td style="width: 40%; "><t t-esc="line.account_id.name"/> </td>
+        <td style="width: 20%; text-align: right;"><t t-esc="line.debit"/> <t t-set="d_total" t-value="d_total+line.debit"/></td>
+        <td style="width: 20%; text-align: right;"><t t-esc="line.credit"/> <t t-set="c_total" t-value="c_total+line.credit"/> </td>
+        </tr>
+        </t>
+    </table>
+    </div>
+    <table style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; margin-top: 0mm; width: 100%;">
+
+        <tr style="border: 1px 0px 1px 0px solid black; border-collapse: collapse;">
+        <td style=" width: 10%;"/>
+    <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 50%; text-align: right;">TOTAL:</td>
+        <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 20%; text-align: right;"><t t-esc="d_total"/></td>
+        <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 20%; text-align: right;"><t t-esc="c_total"/></td>
+
+        </tr>
+        <tr style="height: 13mm;">
+            <td colspan="2" style="width: 50%;"/>
+            <td colspan="2" style="width: 50%;"/>
+
+            <br/><br/><br/><br/>
+        </tr>
+        <tr style="border: 1px solid black; border-collapse: collapse;">
+            <td colspan="2" style="width: 50%;">HECHO POR:  <t t-esc="o.create_uid.name.upper()"/></td>
+            <td colspan="2" style="width: 50%;">AUTORIZADO POR:</td>
+        </tr>
+    </table>
+
+    <table style="margin-top: 13mm; width: 100%; border: none;">
+    <tr style="text-align: center;border: none; ">
+            <td style="width: 30%;border: none; border-top: 1px solid black;">RECIBIDO POR:</td>
+            <td style="widows: 3%; border: none;"/>
+            <td style="width: 30%;border: none; border-top: 1px solid black;">FECHA:</td>
+        <td style="widows: 3%; border: none;"/>
+            <td style="width: 30%;border: none;border-top: 1px solid black;">FIRMA:</td>
+        </tr>
+    </table>
+
+   <!--
+
+<table style="border:1px solid black; ">
+  <tbody>
+    <t t-set="d_total" t-value="0"/>
+    <t t-set="c_total" t-value="0"/>
+    <t t-foreach="o.line_ids" t-as="line">
+    <table width="90%">
+      <tr>
+        <div style="line-height:5pt">
+          <td width="60%" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.account_id.name"/>
+          </td>
+          <td width="20%" class="text-left" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.debit"/>
+            <t t-set="d_total" t-value="d_total+line.debit"/>
+          </td>
+          <td width="20%" class="text-left" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.credit"/>
+            <t t-set="c_total" t-value="c_total+line.credit"/>
+          </td>
+        </div>
+      </tr>
+    </table>
+    </t>
+  </tbody>
+
+
+  <tfooter>
+    <table width="90%">
+      <tr>
+        <td width="60%" height="20px">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">      <span t-field="o.ref"/> </p>
+        </td>
+        <td width="20%" class="text-left">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">    <t t-esc="d_total"/> </p>
+        </td>
+        <td width="20%" class="text-left">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">     <t t-esc="c_total"/> </p>
+        </td>
+      </tr>
+    </table>
+    <tr>
+      <td width="60%">
+        <p style="font-family: Arvo; letter-spacing: 0.2em;"> Numero de Cheque  <t t-set="number_check" t-value="o.name.split('/', 2)"></t> <span t-esc=" number_check[2]" />  </p>
+      </td>
+      <td width="20%">
+      </td>
+      <td width="20%">
+      </td>
+    </tr>
+    <tr>
+      <td width="30%" colspan="3">
+        <table width="100%">
+          <tr>
+            <td width="30%">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">    <span t-esc="request.env.user.name"/></p>
+            </td>
+            <td width="40%">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">   <span t-field="o.create_uid.name"/> </p>
+            </td>
+            <td width="30%">
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </tfooter>
+</table>
+-->
+
+</t>
+
+</div>
+</t>
+</t>
+</template>
+
+
+<template id="check_pdf_print.report_check_pdf_bi">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="o">
+      <div class="page"><t>
+      <!-- check design -->
+        <div class="row" style="padding-top:80px;">
+          <table width="100%" style="margin-left:-30px;">
+            <tr height="30px">
+              <td width="35%" height="0.5px" style="font-family: Courier; font-size:14px;padding-left:80px;">
+                Guatemala, <span t-esc=" o.payment_date"/>
+              </td>
+              <td width="35%" height="0.005px" style="font-family: Courier; font-size:14px;text-align:left;padding-left:75px;">
+               <span style="margin-left:-50px;" t-field="o.amount"/>
+              </td>
+            </tr>
+            <tr>
+                  <td width="70%" colspan="1" height="25px" style="font-family: Courier; font-size:14px;padding-left:80px;">
+                     <span t-field="o.partner_id.name"/>
+                  </td>
+            </tr>
+            <tr>
+                  <td width="70%" colspan="2" height="15px" style="font-family: Courier; font-size:14px;padding-left:60px;">
+                      ** <span t-esc="o.amount_in_words.upper()"/> **
+                  </td>
+            </tr>
+            <tr>
+                  <td colspan="3" height="80px" style="font-family: Courier; letter-spacing: 0.2em;font-size:12pt;">
+
+                  </td>
+            </tr>
+          </table>
+        </div>
+
+<style type="text/css">
+
+/* Arvo */
+@font-face {
+  font-family: 'Arvo';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Arvo'), url(http://fonts.gstatic.com/s/arvo/v8/MViwy4K6e56oHcyeMzjbCQ.ttf) format('truetype');
+}
+
+
+
+.monto-cheque{
+    position: absolute;
+    top: 57px;
+    right: 300px;
+    width: 70%;
+    text-align: right;
+}
+
+
+
+
+</style>
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+    <table id="tgrid">
+    <tr>
+        <td style="width: 50%; text-align: left;">CHEQUE No: <t t-set="number_check" t-value="o.name.split('/', 2)"/> <span t-esc="o.check_number"/></td>
+        <td style="width: 50%; text-algin:right:"><span t-esc="o.payment_date"/> </td>
+
+    </tr>
+    <tr>
+        <td valign="text-top" style="width: 60%">BENEFICIARIO: <span t-field="o.partner_id.name"/></td>
+        <td>VALOR: <span t-field="o.amount"/></td>
+    </tr>
+    <tr>
+        <td colspan="2">TOTAL EN LETRAS: <span t-esc="o.amount_in_words.upper()"/></td>
+    </tr>
+    <tr>
+        <td colspan="2">POR CONCEPTO DE: <span t-field="o.ref"/></td>
+    </tr>
+    </table>
+    <t t-set="d_total" t-value="0"/>
+    <t t-set="c_total" t-value="0"/>
+
+    <div style="height:40mm;">
+    <table style=" border: 1px 0px 1px 0px solid black; border-collapse: collapse; margin-top: 5mm; width: 100%;">
+
+    <tr style="border: 1px solid black; border-collapse: collapse; text-align: left;">
+        <th>CUENTA</th>
+        <th>DESCRIPCION</th>
+        <th style="text-align: right;">DEBE</th>
+        <th style="text-align: right;">HABER</th>
+
+    </tr>
+ <t t-foreach="o.line_ids" t-as="line">
+        <tr style="border: 1px 0px 1px 0px solid black; border-collapse: collapse;">
+        <td style="width: 20%; "><t t-esc="line.account_id.code"/> </td><!--codigo cuenta-->
+        <td style="width: 40%; "><t t-esc="line.account_id.name"/> </td>
+        <td style="width: 20%; text-align: right;"><t t-esc="line.debit"/> <t t-set="d_total" t-value="d_total+line.debit"/></td>
+        <td style="width: 20%; text-align: right;"><t t-esc="line.credit"/> <t t-set="c_total" t-value="c_total+line.credit"/> </td>
+        </tr>
+        </t>
+    </table>
+    </div>
+    <table style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; margin-top: 0mm; width: 100%;">
+
+        <tr style="border: 1px 0px 1px 0px solid black; border-collapse: collapse;">
+        <td style=" width: 10%;"/>
+    <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 50%; text-align: right;">TOTAL:</td>
+        <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 20%; text-align: right;"><t t-esc="d_total"/></td>
+        <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 20%; text-align: right;"><t t-esc="c_total"/></td>
+
+        </tr>
+        <tr style="height: 13mm;">
+            <td colspan="2" style="width: 50%;"/>
+            <td colspan="2" style="width: 50%;"/>
+
+            <br/><br/><br/><br/>
+        </tr>
+        <tr style="border: 1px solid black; border-collapse: collapse;">
+            <td colspan="2" style="width: 50%;">HECHO POR:  <t t-esc="o.create_uid.name.upper()"/></td>
+            <td colspan="2" style="width: 50%;">AUTORIZADO POR:</td>
+        </tr>
+    </table>
+
+    <table style="margin-top: 13mm; width: 100%; border: none;">
+    <tr style="text-align: center;border: none; ">
+            <td style="width: 30%;border: none; border-top: 1px solid black;">RECIBIDO POR:</td>
+            <td style="widows: 3%; border: none;"/>
+            <td style="width: 30%;border: none; border-top: 1px solid black;">FECHA:</td>
+        <td style="widows: 3%; border: none;"/>
+            <td style="width: 30%;border: none;border-top: 1px solid black;">FIRMA:</td>
+        </tr>
+    </table>
+
+   <!--
+
+<table style="border:1px solid black; ">
+  <tbody>
+    <t t-set="d_total" t-value="0"/>
+    <t t-set="c_total" t-value="0"/>
+    <t t-foreach="o.line_ids" t-as="line">
+    <table width="90%">
+      <tr>
+        <div style="line-height:5pt">
+          <td width="60%" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.account_id.name"/>
+          </td>
+          <td width="20%" class="text-left" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.debit"/>
+            <t t-set="d_total" t-value="d_total+line.debit"/>
+          </td>
+          <td width="20%" class="text-left" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.credit"/>
+            <t t-set="c_total" t-value="c_total+line.credit"/>
+          </td>
+        </div>
+      </tr>
+    </table>
+    </t>
+  </tbody>
+
+
+  <tfooter>
+    <table width="90%">
+      <tr>
+        <td width="60%" height="20px">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">      <span t-field="o.ref"/> </p>
+        </td>
+        <td width="20%" class="text-left">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">    <t t-esc="d_total"/> </p>
+        </td>
+        <td width="20%" class="text-left">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">     <t t-esc="c_total"/> </p>
+        </td>
+      </tr>
+    </table>
+    <tr>
+      <td width="60%">
+        <p style="font-family: Arvo; letter-spacing: 0.2em;"> Numero de Cheque  <t t-set="number_check" t-value="o.name.split('/', 2)"></t> <span t-esc=" number_check[2]" />  </p>
+      </td>
+      <td width="20%">
+      </td>
+      <td width="20%">
+      </td>
+    </tr>
+    <tr>
+      <td width="30%" colspan="3">
+        <table width="100%">
+          <tr>
+            <td width="30%">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">    <span t-esc="request.env.user.name"/></p>
+            </td>
+            <td width="40%">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">   <span t-field="o.create_uid.name"/> </p>
+            </td>
+            <td width="30%">
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </tfooter>
+</table>
+-->
+
+</t>
+
+</div>
+</t>
+</t>
+</template>
+
+
+<template id="check_pdf_print.report_check_pdf_bi_rocasa">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="o">
+      <div class="page"><t>
+      <!-- check design -->
+        <div class="row">
+          <table width="100%">
+            <tr height="30px">
+              <td width="8%" height="5px">
+                     
+              </td>
+              <td width="75%" height="0.5px" style="font-family: Courier; font-size:12pt;">
+                Guatemala, <span t-esc=" o.payment_date"/>
+              </td>
+              <td width="75%" height="0.005px" class="text-right" style="font-family: Courier; font-size:12pt;">
+               <span t-field="o.amount"/>
+              </td>
+            </tr>
+            <tr>
+                  <td width="8%" height="20px">
+                  </td>
+                  <td width="70%" colspan="1" height="25px" style="font-family: Courier;  font-size:12pt;">
+                     <span t-field="o.partner_id.name"/>
+                  </td>
+            </tr>
+            <tr>
+                  <td width="10%" height="25px">
+                  </td>
+                  <td width="70%" colspan="2" height="15px" style="font-family: Courier; font-size:12pt; ">
+                      ** <span t-esc="o.amount_in_words.upper()"/> **
+                  </td>
+            </tr>
+            <tr>
+                  <td colspan="3" height="80px" style="font-family: Courier; letter-spacing: 0.2em;font-size:12pt;">
+
+                  </td>
+            </tr>
+          </table>
+        </div>
+
+<style type="text/css">
+
+/* Arvo */
+@font-face {
+  font-family: 'Arvo';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Arvo'), url(http://fonts.gstatic.com/s/arvo/v8/MViwy4K6e56oHcyeMzjbCQ.ttf) format('truetype');
+}
+
+
+
+.monto-cheque{
+    position: absolute;
+    top: 57px;
+    right: 300px;
+    width: 70%;
+    text-align: right;
+}
+
+
+
+
+</style>
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+    <table id="tgrid">
+    <tr>
+        <td style="width: 50%; text-align: left;"><strong>CHEQUE No:</strong><t t-set="number_check" t-value="o.name.split('/', 2)"/> <span t-esc=" number_check[2]"/></td>
+        <td style="width: 50%; text-algin:right:"><span t-esc="o.payment_date"/> </td>
+
+    </tr>
+    <tr>
+        <td valign="text-top" style="width: 60%"><strong>BENEFICIARIO: </strong><span t-field="o.partner_id.name"/></td>
+        <td><strong>VALOR:</strong> <span t-field="o.amount"/></td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>TOTAL EN LETRAS:</strong> <span t-esc="o.amount_in_words.upper()"/></td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>POR CONCEPTO DE: <span t-field= "o.ref"/> </strong> <span/></td>
+    </tr>
+    </table>
+    <t t-set="d_total" t-value="0"/>
+    <t t-set="c_total" t-value="0"/>
+
+    <div style="height:40mm;">
+    <table style=" border: 1px 0px 1px 0px solid black; border-collapse: collapse; margin-top: 5mm; width: 100%;">
+
+    <tr style="border: 1px solid black; border-collapse: collapse; text-align: left;">
+        <th>CUENTA</th>
+        <th>DESCRIPCION</th>
+        <th style="text-align: right;">DEBE</th>
+        <th style="text-align: right;">HABER</th>
+
+    </tr>
+ <t t-foreach="o.line_ids" t-as="line">
+        <tr style="border: 1px 0px 1px 0px solid black; border-collapse: collapse;">
+        <td style="width: 20%; "><t t-esc="line.account_id.code"/> </td><!--codigo cuenta-->
+        <td style="width: 40%; "><t t-esc="line.account_id.name"/> </td>
+        <td style="width: 20%; text-align: right;"><t t-esc="line.debit"/> <t t-set="d_total" t-value="d_total+line.debit"/></td>
+        <td style="width: 20%; text-align: right;"><t t-esc="line.credit"/> <t t-set="c_total" t-value="c_total+line.credit"/> </td>
+        </tr>
+        </t>
+    </table>
+    </div>
+    <table style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; margin-top: 0mm; width: 100%;">
+
+        <tr style="border: 1px 0px 1px 0px solid black; border-collapse: collapse;">
+        <td style=" width: 10%;"/>
+    <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 50%; text-align: right;">TOTAL:</td>
+        <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 20%; text-align: right;"><t t-esc="d_total"/></td>
+        <td style="border: 1px 0px 1px 0px solid black; border-collapse: collapse; width: 20%; text-align: right;"><t t-esc="c_total"/></td>
+
+        </tr>
+        <tr style="height: 13mm;">
+            <td colspan="2" style="width: 50%;"/>
+            <td colspan="2" style="width: 50%;"/>
+
+            <br/><br/><br/><br/>
+        </tr>
+        <tr style="border: 1px solid black; border-collapse: collapse;">
+            <td colspan="2" style="width: 50%;">HECHO POR:  <t t-esc="o.create_uid.name.upper()"/></td>
+            <td colspan="2" style="width: 50%;">AUTORIZADO POR:</td>
+        </tr>
+    </table>
+
+    <table style="margin-top: 13mm; width: 100%; border: none;">
+    <tr style="text-align: center;border: none; ">
+            <td style="width: 30%;border: none; border-top: 1px solid black;">RECIBIDO POR:</td>
+            <td style="widows: 3%; border: none;"/>
+            <td style="width: 30%;border: none; border-top: 1px solid black;">FECHA:</td>
+        <td style="widows: 3%; border: none;"/>
+            <td style="width: 30%;border: none;border-top: 1px solid black;">FIRMA:</td>
+        </tr>
+    </table>
+
+   <!--
+
+<table style="border:1px solid black; ">
+  <tbody>
+    <t t-set="d_total" t-value="0"/>
+    <t t-set="c_total" t-value="0"/>
+    <t t-foreach="o.line_ids" t-as="line">
+    <table width="90%">
+      <tr>
+        <div style="line-height:5pt">
+          <td width="60%" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.account_id.name"/>
+          </td>
+          <td width="20%" class="text-left" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.debit"/>
+            <t t-set="d_total" t-value="d_total+line.debit"/>
+          </td>
+          <td width="20%" class="text-left" style="font-family: Arvo; letter-spacing: 0.2em;">
+            <t t-esc="line.credit"/>
+            <t t-set="c_total" t-value="c_total+line.credit"/>
+          </td>
+        </div>
+      </tr>
+    </table>
+    </t>
+  </tbody>
+
+
+  <tfooter>
+    <table width="90%">
+      <tr>
+        <td width="60%" height="20px">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">      <span t-field="o.ref"/> </p>
+        </td>
+        <td width="20%" class="text-left">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">    <t t-esc="d_total"/> </p>
+        </td>
+        <td width="20%" class="text-left">
+          <p style="font-family: Arvo; letter-spacing: 0.2em;">     <t t-esc="c_total"/> </p>
+        </td>
+      </tr>
+    </table>
+    <tr>
+      <td width="60%">
+        <p style="font-family: Arvo; letter-spacing: 0.2em;"> Numero de Cheque  <t t-set="number_check" t-value="o.name.split('/', 2)"></t> <span t-esc=" number_check[2]" />  </p>
+      </td>
+      <td width="20%">
+      </td>
+      <td width="20%">
+      </td>
+    </tr>
+    <tr>
+      <td width="30%" colspan="3">
+        <table width="100%">
+          <tr>
+            <td width="30%">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">    <span t-esc="request.env.user.name"/></p>
+            </td>
+            <td width="40%">
+              <p style="font-family: Arvo; letter-spacing: 0.2em;">   <span t-field="o.create_uid.name"/> </p>
+            </td>
+            <td width="30%">
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </tfooter>
+</table>
+-->
+
+</t>
+
+</div>
+</t>
+</t>
+</template>
+
+
+    </data>
+</odoo>

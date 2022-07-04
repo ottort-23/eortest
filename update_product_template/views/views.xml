@@ -1,0 +1,80 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="update_custom_template_product">
+      <field name="name">update.product.form</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+          <page string="Extra" name="extra_information">
+          <group>
+            <field name="clase"/>
+            <field name="summary"/>
+            <field name="dosis_mz"/>
+            <field name="dosis_barrel"/>
+            <field name="dosis_dump"/>
+            <field name="liquid_tank"/>
+            <field name="work_pesion"/>
+            <field name="air_chamber"/>
+            <field name="weight"/>
+            <field name="drums"/>
+            <field name="vol_aspersion"/>
+            <field name="duration"/>
+            <field name="dimensions"/>
+            <field name="motor"/>
+            <field name="pump"/>
+            <field name="fan"/>
+            <field name="dis_aspersion"/>
+            <field name="cap_desc"/>
+            <field name="diaphragms"/>
+            <field name="membranes"/>
+            <field name="piston"/>
+            <field name="pressure"/>
+            <field name="maximum_height"/>
+            <field name="maximum_suction"/>
+            <field name="pump_type"/>
+            <field name="diam_suction_discharge"/>
+            <field name="num_impellers"/>
+            <field name="volts"/>
+            <field name="metal_rim_measurements"/>
+            <field name="external_tire_measurement"/>
+            <field name="plow_width"/>
+            <field name="plow_width_2"/>
+            <field name="set_blades"/>
+            <field name="diam_spikes"/>
+            <field name="plow_depth"/>
+            <field name="plow_speed"/>
+            <field name="transmission"/>
+            <field name="tire"/>
+            <field name="handle"/>
+            <field name="handle_barr"/>
+            <field name="entry" />
+            <field name="drained_outlet"/>
+            <field name="for_tractor"/>
+            <field name="turbine"/>
+            <field name="nozzle"/>
+            <field name="spray_range"/>
+            <field name="fan_diam"/>
+            <field name="arrow"/>
+            <field name="dimensions_2"/>
+            <field name="extra_deposit"/>
+            <field name="control"/>
+            <field name="rim_type"/>
+            <field name="speed"/>
+            <field name="tube"/>
+            <field name="blades"/>
+            <field name="maximum_speed"/>
+            <field name="vol_air_max"/>
+            <field name="transmission_tube_diam"/>
+            <field name="paso"/>
+            <field name="cut_diameter"/>
+            <field name="eslab"/>
+            <field name="bar"/>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>
+

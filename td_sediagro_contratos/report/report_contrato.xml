@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="contrato" model="ir.actions.report">
+        <field name="name">Contrato</field>
+        <field name="model">sediagro.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">td_sediagro_contratos.report_contrato</field>
+        <field name="report_file">td_sediagro_contratos.report_contrato</field>
+        <field name="binding_type">report</field>
+    </record>
+
+
+        <template id="report_contrato">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.sediagro_layout">
+                        <t t-set="address">
+                            <!--<div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>-->
+                            <div  t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                            <!--<p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="doc.partner_id.vat"/></p>-->
+                        </t>
+                        <div class="page">
+
+
+                            <div class="oe_structure"/>
+                            <h2 class="mt16" align="right">
+                                <span>Contrato No. </span>
+                                <span t-field="doc.reference"/>
+                            </h2>
+                            <!--<div class="mt16" align="right" >Fecha: <span   t-esc="doc.date_order.strftime('%d/%m/%Y')"/></div>-->
+
+                            <div class="mt16" id="informations" align="right">
+                                <div class="text-right">
+                                    <div >
+                                        <span>Fecha Inicio: </span>
+                                        <span t-esc="doc.date_init.strftime('%d/%m/%Y')"/>
+                                    </div>
+                                    <div >
+                                        <span>Fecha Final: </span>
+                                        <span t-esc="doc.date_end.strftime('%d/%m/%Y')"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="informations" class="row mt32 mb32">
+                                <div class="col-auto mw-100 mb-2">
+                                    <p>
+                                        Estimado: <span t-field="doc.partner_id" />
+                                    </p>
+                                    <span t-field="doc.greet" />
+                                </div>
+                            </div>
+
+                            <table class="table table-sm o_main_table" style="font-size:14px;">
+                                <thead>
+                                    <tr>
+                                        <t t-set="colspan" t-value="5"/>
+                                        <th class="text-left">Categoria</th>
+                                        <th class="text-right">Cantidad Kg/Lt</th>
+                                        <th class="text-right">Precio Kg/Lt</th>
+                                        <th class="text-right">Importe</th>
+                                        <th class="text-right">Facturado Kg/Lt</th>
+                                        <th class="text-right">Importe Facturado</th>
+                                        <th class="text-right">Ejecucion</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="sale_tbody">
+                                    <t t-set="subtotal_qty" t-value="0"/>
+                                    <t t-set="subtotal_price_total" t-value="0"/>
+                                    <t t-set="subtotal_qty_fact" t-value="0"/>
+                                    <t t-set="subtotal_price_fact" t-value="0"/>
+                                    <t t-foreach="doc.line_ids" t-as="line">
+                                        <td class="text-left"><span t-field="line.category_id"/></td>
+                                        <td class="text-right"><span t-field="line.qty"/></td>
+                                        <td class="text-right"><span t-field="line.price" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/></td>
+                                        <td class="text-right"><span t-field="line.line_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/></td>
+                                        <td class="text-right"><span t-field="line.qty_invoiced"/></td>
+                                        <td class="text-right"><span t-field="line.total_invoiced" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/></td>
+                                        <td class="text-right"><span t-esc="'%.0f'%(line.execution * 100)"/>%</td>
+                                        <t t-set="subtotal_qty" t-value="subtotal_qty + line.qty"/>
+                                        <t t-set="subtotal_price_total" t-value="subtotal_price_total + line.price"/>
+                                        <t t-set="subtotal_qty_fact" t-value="subtotal_qty_fact + line.qty_invoiced"/>
+                                        <t t-set="subtotal_price_fact" t-value="subtotal_price_fact + line.line_total"/>
+                                    </t>
+                                </tbody>
+                                <tfoot style="font-weight:bold;border-bottom: 2px solid black;">
+                                    <tr>
+                                        <td class="text-right"><span>Totales</span></td>
+                                        <td class="text-right"><span t-esc="subtotal_qty"/></td>
+                                        <td class="text-right"><span /></td>
+                                        <td class="text-right"><span t-esc="subtotal_price_total"/></td>
+                                        <td class="text-right"><span t-esc="subtotal_qty_fact"/></td>
+                                        <td class="text-right"><span t-esc="subtotal_price_fact"/></td>
+                                        <td class="text-right"><span t-esc="execution"/> </td>\
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <div style="margin-top:50px;">
+                                <p><strong>Notas:</strong></p>
+                                <p>
+                                    <span t-field="doc.notes"/>
+                                </p>
+                            </div>
+
+
+                            <div class="oe_structure"/>
+
+                        </div>
+                    </t>
+
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

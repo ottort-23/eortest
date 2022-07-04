@@ -1,0 +1,103 @@
+<templates id="template" xml:space="preserve">
+
+   <t t-extend="PosTicket">
+       <t t-jquery=".pos-sale-ticket" t-operation='prepend'>
+           <div class="pos-center-align">
+               <img t-att-src="widget.pos.company_logo_base64"/><br />
+           </div>
+
+           <div>DOCUMENTO TRIBUTARIO ELECTRÓNICO</div>
+           <t>
+               <div id="container_fel_serie">
+                   <div id="fel_serie" style="font-weight:bold;">SERIE:
+                       <t t-esc='order.invoice_id.fel_serie'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_fel_number">
+                   <div id="fel_number" style="font-weight:bold;">NÚMERO:
+                       <t t-esc='order.invoice_id.fel_number'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_fel_uuid">
+                    <div id="fel_uuid" style="font-weight:bold;">NÚMERO DE AUTORIZACIÓN:
+                       <t t-esc='order.invoice_id.fel_uuid'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_fel_date" class="mt-4">
+                   <div id="fel_date" style="font-weight:bold;">FECHA EMISIÓN:
+                       <t t-esc='order.invoice_id.fel_date'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_client_name" class="mt-4">
+                   <div id="client_name" style="font-weight:bold;">NOMBRE:
+                       <t t-esc='receipt.client.name'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_client_vat" class="mt-4">
+                   <div id="client_vat" style="font-weight:bold;">NIT:
+                       <t t-esc='receipt.client.vat'/>
+                   </div>
+               </div>
+           </t>
+       </t>
+   </t>
+
+    <t t-extend="XmlReceipt">
+        <t t-jquery="div.orderlines" t-operation="before">
+           <div>DOCUMENTO TRIBUTARIO ELECTRONICO</div>
+           <t>
+               <div id="container_fel_serie">
+                   <div id="fel_serie" style="font-weight:bold;">SERIE:
+                       <t t-esc='order.invoice_id.fel_serie'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_fel_number">
+                   <div id="fel_number" style="font-weight:bold;">NUMERO:
+                       <t t-esc='order.invoice_id.fel_number'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_fel_uuid">
+                    <div id="fel_uuid" style="font-weight:bold;">NUMERO DE AUTORIZACION:
+                       <t t-esc='order.invoice_id.fel_uuid'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_fel_date" class="mt-4">
+                   <div id="fel_date" style="font-weight:bold;">FECHA EMISION:
+                       <t t-esc='order.invoice_id.fel_date'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_client_name" class="mt-4">
+                   <div id="client_name" style="font-weight:bold;">NOMBRE:
+                       <t t-esc='receipt.client.name'/>
+                   </div>
+               </div>
+           </t>
+           <t>
+               <div id="container_client_vat" class="mt-4">
+                   <div id="client_vat" style="font-weight:bold;">NIT:
+                       <t t-esc='receipt.client.vat'/>
+                   </div>
+               </div>
+           </t>
+           <br /><br />
+       </t>
+   </t>
+</templates>

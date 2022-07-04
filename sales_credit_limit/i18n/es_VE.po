@@ -1,0 +1,108 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sales_credit_limit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-01-11 12:15+0000\n"
+"PO-Revision-Date: 2022-01-11 12:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sales_credit_limit
+#: model:ir.model.fields,help:sales_credit_limit.field_res_partner__warning_stage
+#: model:ir.model.fields,help:sales_credit_limit.field_res_users__warning_stage
+msgid ""
+"A warning message will appear once the selected customer is crossed warning "
+"amount.Set its value to 0.00 to disable this feature"
+msgstr "Aparecerá un mensaje de advertencia una vez que el cliente "
+"seleccionado haya cruzado la cantidad de advertencia. Establezca su valor en "
+"0.00 para deshabilitar esta función"
+
+#. module: sales_credit_limit
+#: model:ir.model.fields,field_description:sales_credit_limit.field_res_partner__active_limit
+#: model:ir.model.fields,field_description:sales_credit_limit.field_res_users__active_limit
+msgid "Active Credit Limit"
+msgstr "Límite de crédito activo"
+
+#. module: sales_credit_limit
+#: model:ir.model.fields,field_description:sales_credit_limit.field_res_partner__blocking_stage
+#: model:ir.model.fields,field_description:sales_credit_limit.field_res_users__blocking_stage
+msgid "Blocking Amount"
+msgstr "Monto de bloqueo"
+
+#. module: sales_credit_limit
+#: model:ir.model.fields,help:sales_credit_limit.field_res_partner__blocking_stage
+#: model:ir.model.fields,help:sales_credit_limit.field_res_users__blocking_stage
+msgid ""
+"Cannot make sales once the selected customer is crossed blocking amount.Set "
+"its value to 0.00 to disable this feature"
+msgstr "No se pueden realizar ventas una vez que se cruza el monto de bloqueo "
+"del cliente seleccionado. Establezca su valor en 0.00 para deshabilitar esta "
+"función"
+
+#. module: sales_credit_limit
+#: model:ir.model,name:sales_credit_limit.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: sales_credit_limit
+#: model_terms:ir.ui.view,arch_db:sales_credit_limit.view_customer_form
+msgid "Credit Limit"
+msgstr "Limite de Credito"
+
+#. module: sales_credit_limit
+#: model:ir.model.fields,field_description:sales_credit_limit.field_sale_order__has_due
+msgid "Has Due"
+msgstr ""
+
+#. module: sales_credit_limit
+#: model:ir.model.fields,field_description:sales_credit_limit.field_sale_order__is_warning
+msgid "Is Warning"
+msgstr ""
+
+#. module: sales_credit_limit
+#: model:ir.model,name:sales_credit_limit.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: sales_credit_limit
+#: model_terms:ir.ui.view,arch_db:sales_credit_limit.header_view
+msgid "This Customer's due amount is"
+msgstr "El monto adeudado de este cliente"
+
+#. module: sales_credit_limit
+#: code:addons/sales_credit_limit/models/credit_limit_model.py:0
+#, python-format
+msgid "This customer is in  Blocking Stage and has %s to pay"
+msgstr "Este cliente está en Etapa de Bloqueo y tiene %s para pagar"
+
+#. module: sales_credit_limit
+#: model_terms:ir.ui.view,arch_db:sales_credit_limit.header_view
+msgid "This customer's <strong>warning limit</strong> has been crossed."
+msgstr "Se ha superado el <strong>límite de advertencia</strong> de este cliente."
+
+#. module: sales_credit_limit
+#: model:ir.model.fields,field_description:sales_credit_limit.field_res_partner__due_amount
+#: model:ir.model.fields,field_description:sales_credit_limit.field_res_users__due_amount
+#: model:ir.model.fields,field_description:sales_credit_limit.field_sale_order__due_amount
+msgid "Total Sale"
+msgstr "Total en ventas"
+
+#. module: sales_credit_limit
+#: model:ir.model.fields,field_description:sales_credit_limit.field_res_partner__warning_stage
+#: model:ir.model.fields,field_description:sales_credit_limit.field_res_users__warning_stage
+msgid "Warning Amount"
+msgstr "Monto de advertencia"
+
+#. module: sales_credit_limit
+#: code:addons/sales_credit_limit/models/credit_limit_model.py:0
+#, python-format
+msgid "Warning amount should be less than Blocking amount"
+msgstr "El monto de advertencia debe ser menor que el monto de bloqueo"

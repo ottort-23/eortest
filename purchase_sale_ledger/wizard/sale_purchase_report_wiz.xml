@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="sale_purchase_ledger_wizard" model="ir.ui.view">
+            <field name="name">sale.purchase.ledger.wizard</field>
+            <field name="model">sale.purchase.ledger.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Libro de Compras y Ventas">
+                    <group>
+                         <group>
+                         	<field name="ledger_type" string = "Tipo Reporte" widget='radio' nolabel='1'/>
+                            <field name="company_id" string = "Empresa:"/>
+                            <field name="year" string = "Año"/>
+                            <field name="month" string = "Mes"/>
+                            <field name="first_page_number"  string = "Folio Inicial"/>
+                             <field name="print_resume"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string='PDF' name='print_report' type="object" class="btn-primary"/> o
+                        <button string='Excel' name='print_xls_report' type="object" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <!--act_window id="sale_purchase_ledger_action"
+            name="Libro de Compras y Ventas"
+            res_model="sale.purchase.ledger.wiz"
+            src_model="account.invoice"
+            view_mode="form" target="new" view_type="form" /-->
+
+    <record id="sale_purchase_ledger_action" model="ir.actions.act_window">
+        <field name="name">Libro de Compras y Ventas</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.purchase.ledger.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    	<menuitem id="menu_action_sale_pur_ledger" 
+    			  action="sale_purchase_ledger_action"
+                  parent="account_reports.account_reports_audit_reports_menu"
+                  name = "Libro de Compras y Ventas"
+                  sequence="1"/>
+
+  	</data>
+</odoo>

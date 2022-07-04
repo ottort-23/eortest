@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inteligos_fel_phrases_manager,l10n_gt_inteligos_fel.account_fel_phrases,model_account_fel_phrases,group_fel_manager,1,1,1,1
+access_inteligos_fel_log_manager,l10n_gt_inteligos_fel.account_fel_log,model_account_move_fel_log,group_fel_manager,1,1,1,1
+access_inteligos_fel_contingency_manager,l10n_gt_inteligos_fel.account_fel_contingency,model_account_fel_contingency,group_fel_manager,1,1,1,1
+access_inteligos_fel_adendas_manager,l10n_gt_inteligos_fel.company_adendas_fel,model_company_adendas_fel,group_fel_manager,1,1,1,1
+access_inteligos_urls_manager,URLs FEL,model_company_fel_url,group_fel_manager,1,1,1,1

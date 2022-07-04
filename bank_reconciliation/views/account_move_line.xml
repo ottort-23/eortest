@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="conciliacion_bancaria_view_account_move_line_filter">
+        <field name="name">bank_reconciliation.account.move.line.search</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <data>
+                <filter name="unreconciled" position="after">
+                    <filter string="Sin Conc. con Banco" domain="[('conciliado_banco','=',False)]" help="Apuntes que no han sido conciliados con el banco" name="no_conciliado_banco"/>
+                    <filter string="Conc. con Banco" domain="[('conciliado_banco','!=',False)]" help="Apuntes que han sido conciliados con el banco" name="si_conciliado_banco"/>
+                </filter>
+            </data>
+        </field>
+    </record>
+
+    <record id="conciliacion_bancaria_view_move_line_tree" model="ir.ui.view">
+        <field name="name">bank_reconciliation.account.move.line.tree</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="date_maturity" position="after">
+                <field name="fecha_conciliacion"/>
+            </field>
+        </field>
+    </record>
+</odoo>

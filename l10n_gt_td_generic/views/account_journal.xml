@@ -1,0 +1,29 @@
+<odoo>
+
+<!--      Actualizacion del 10/05/2021-->
+<!--        Mejoras para agregar nuevas secuencias para diarios.
+            Para continuar con el funcionamiento de secuencias en los diarios.-->
+    <record model="ir.ui.view" id="view_account_journal_form">
+      <field name="name">Secuencias de Diario</field>
+      <field name="model">account.journal</field>
+      <field name="inherit_id" ref="account.view_account_journal_form"/>
+      <field name="arch" type="xml">
+          <field name="refund_sequence" position="before">
+              <label for="sequence_id"/>
+              <div name="main_sequence">
+                  <field name="sequence" style="padding-right: 1.0em"/>
+                  <field name="sequence_id" required="0" groups="base.group_no_one"/>
+              </div>
+          </field>
+
+          <field name="refund_sequence" position="replace">
+              <label for="refund_sequence_id"/>
+              <div name="refund">
+                  <field name="refund_sequence" style="padding-right: 1.0em"/>
+                  <field name="refund_sequence_id" required="0" readonly="1" groups="base.group_no_one"/>
+              </div>
+          </field>
+      </field>
+    </record>
+
+</odoo>

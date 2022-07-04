@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="report_customert_print" model="ir.actions.report">
+        <field name="name">Customer Statement</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_statement.report_customer</field>
+        <field name="report_file">account_statement.report_customer</field>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">(object.name + '_Customer_Statement.pdf')</field>
+    </record>
+
+    <record id="report_supplier_print" model="ir.actions.report">
+        <field name="name">Supplier Statement</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_statement.report_supplier</field>
+        <field name="report_file">account_statement.report_supplier</field>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_customer_monthly_print" model="ir.actions.report">
+        <field name="name">Customer Monthly Statement</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_statement.monthly_customer_statement</field>
+        <field name="report_file">account_statement.monthly_customer_statement</field>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">(object.name + '_Customer_Monthly_Statement.pdf')</field>
+    </record>
+
+    <record id="report_customer_overdue_print" model="ir.actions.report">
+        <field name="name">Customer Overdue Statement</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_statement.bi_report_overdue_due</field>
+        <field name="report_file">account_statement.bi_report_overdue_due</field>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">(object.name + '_Customer_Statement.pdf')</field>
+    </record>
+
+    </data>
+</odoo>

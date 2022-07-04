@@ -1,0 +1,27 @@
+<odoo>
+  <record model="ir.ui.view" id="view_move_form_fel">
+      <field name="name">Vista Formulario - Herencia de Configuración de POS para cambios FEL</field>
+      <field name="model">pos.config</field>
+      <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//div[@id='company']" position="after">
+              <div id="data_fel" name="fel" class="col-12 col-lg-6 o_setting_box">
+                  <div class="o_setting_right_pane">
+                      <label for="establishment_number"/>
+                      <div><field name="establishment_number" /></div>
+                      <label for="street" string="Dirección"/>
+                      <div class="o_address_format">
+                          <field name="street" placeholder="Calle..." class="o_address_street"/>
+                          <field name="county_name" placeholder="Ciudad" class="o_address_city"/>
+                          <field name="state_id" class="o_address_state" placeholder="Departamento"
+                                 options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                          <field name="zip_code" placeholder="Código postal" class="o_address_zip"/>
+                          <field name="country_id" placeholder="País" class="o_address_country"
+                                 options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                      </div>
+                  </div>
+              </div>
+          </xpath>
+      </field>
+  </record>
+</odoo>

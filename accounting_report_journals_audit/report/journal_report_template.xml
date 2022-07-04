@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--template inherit_id="web.minimal_layout" id="minimal_layout">
+        <xpath expr="//t[@t-if='subst_needed']/script"
+               position="replace">
+            <script>
+                function subst() {
+                    var vars = {};
+                    var x = document.location.search.substring(1).split('&amp;');
+                    for (var i in x) {
+                        var z = x[i].split('=', 2);
+                        vars[z[0]] = unescape(z[1]);
+                    }
+                    var fromPage = document.getElementsByClassName('page');
+                    var my_custom_report_page = document.getElementsByClassName('my_custom_report_page');
+                    for(var j = 0; j&lt;fromPage.length; j++)
+                        if(my_custom_report_page.length >0){
+                            var tot_my_page = parseInt(my_custom_report_page[j].innerText) -1;
+                            fromPage[j].textContent = tot_my_page + parseInt(vars['sitepage']);
+                        }
+                        else{
+                            fromPage[j].textContent = vars['sitepage'];
+                            }
+                    var toPage = document.getElementsByClassName('topage');
+                    for(var j = 0; j&lt;toPage.length; j++)
+                        toPage[j].textContent = vars['sitepages'];
+
+                    var index = vars['webpage'].split('.', 4)[3]
+                    var header = document.getElementById('minimal_layout_report_headers');
+                    if(header !== null){
+                        var companyHeader = header.children[index];
+                        header.textContent = '';
+                        header.appendChild(companyHeader);
+                    }
+                    var footer = document.getElementById('minimal_layout_report_footers');
+                    if(footer !== null){
+                        var companyFooter = footer.children[index];
+                        footer.textContent = '';
+                        footer.appendChild(companyFooter);
+                    }
+                }
+            </script>
+        </xpath>
+    </template
+    TODO:BRYAN revisar si es necesario-->
+
+	<template id="internal_layout_cust">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div class="header">
+            <div class="text-center">
+                <span t-esc="company.name"/>
+            </div>
+        </div>
+        <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+          <t t-raw="0"/>
+        </div>
+        <div class="footer o_background_footer">
+            <div class="text-center">
+                    Folio:
+                    <span class="page" />
+                <span class="my_custom_report_page" style="display:none;"
+                      t-esc="page_number" />
+            </div>
+        </div>
+    </template>
+
+    <template id="journal_report_template">
+    <t t-call="web.html_container">
+    	<t t-set="data_report_margin_top" t-value="12"/>
+        <t t-set="data_report_header_spacing" t-value="9"/>
+        <t t-set="data_report_dpi" t-value="110"/>
+        <t t-call="accounting_report_journals_audit.internal_layout_cust">
+            <div class="pages">
+            	<h2 class="col-xs-3 text-center">Libro Diario</h2>
+            <t t-foreach="group_data" t-as="elt">
+                 <t t-set="total_debit" t-value="0"/>
+                 <t t-set="total_credit" t-value="0"/>
+                 <table class="table table-sm" style="border: 1px solid black;border-top: 2px solid black;font-size:12px;margin-bottom:5px;">
+                 		<tr>
+                 			<th style="border: 1px solid black">NUMERO</th>
+                 			<td t-esc="elt[0]" style="border: 1px solid black"></td>
+                 			<th style="border: 1px solid black"  t-att-colspan="2">FECHA</th>
+                 			<td t-esc="elt[1].strftime('%d/%m/%Y')"  style="border: 1px solid black"></td>
+                 		</tr>
+                 		<tr>
+                 			<th style="border: 1px solid black">DESCRIPCION</th>
+                            <t t-if = "elt[2]">
+                 			    <td t-esc="elt[2]" style="border: 1px solid black" t-att-colspan="4"></td>
+                            </t>
+                            <t t-if = "not elt[2]">
+                 			    <td style="border: 1px solid black" t-att-colspan="4"></td>
+                            </t>
+                 		</tr>
+                 </table>
+                 <table class="table table-sm" style="border: 1px solid black;font-size:12px;border-bottom: 2px solid black;">
+                     <thead>
+                         <tr>
+                             <th style="width:15%;border: 1px solid black">NO. CUENTA</th>
+                             <th style="width:25%;border: 1px solid black">CUENTA</th>
+                             <th style="width:40%;border: 1px solid black">ETIQUETA</th>
+                             <th style="width:10%;border: 1px solid black">DEBE</th>
+                             <th style="width:10%;border: 1px solid black">HABER</th>
+                         </tr>
+                     </thead>
+                     <t t-foreach="self.get_item(elt)" t-as="move_line">
+	                  	<tr>
+	                  		<td t-esc="move_line.account_id.code" style="width:15%;border: 1px solid black"></td>
+	                  		<td t-esc="move_line.account_id.name" style="width:25%;border: 1px solid black"></td>
+	                  		<td t-esc="move_line.name" style="width:40%;border: 1px solid black"></td>
+	                  		<td t-esc="move_line.debit" style="width:10%;border: 1px solid black;text-align:right;" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"></td>
+	                  		<td t-esc="move_line.credit" style="width:10%;border: 1px solid black;text-align:right;" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"></td>
+	                  		<t t-set="total_debit" t-value="total_debit + move_line.debit"/>
+	                  		<t t-set="total_credit" t-value="total_credit + move_line.credit"/>
+	                  	</tr>
+                  	</t>
+                  	<tr>
+                  		<td></td>
+                  		<td></td>
+                  		<td style="font-weight: bold;"> TOTAL</td>
+                  		<strong><td t-esc="total_debit" style="border: 1px solid black;font-weight: bold;text-align:right;" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"></td></strong>
+                  		<strong><td t-esc="total_credit" style="border: 1px solid black;font-weight: bold;text-align:right;" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"></td></strong>
+                  	</tr>
+                  </table>
+                  <div style="height:15px;"/>
+		      </t>   
+            </div>
+        </t>
+    </t>
+</template>
+
+    <record id="action_journal_report_template" model="ir.actions.report">
+        <field name="name">Libro Diario</field>
+        <field name="model">account.move.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">accounting_report_journals_audit.journal_report_template</field>
+        <field name="report_file">accounting_report_journals_audit.journal_report_template</field>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
